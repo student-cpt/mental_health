@@ -12,6 +12,7 @@ router.delete('/delete-user', passport.authenticate('jwt', { session: false }), 
 router.put('/update-user', passport.authenticate('jwt', { session: false }), updateUser);
 
 router.post ('/:username', create_journal);
+router.get('/:username/journals', getPostsByUsername);
 
 router.post('/logout', (req, res) => {
     req.logout(); 
