@@ -3,6 +3,7 @@ import { userSignup, userLogin, getUsers, deleteUser, updateUser } from '../cont
 import passport from 'passport';
 import '../config/passportConfig.js';
 import { create_journal, getPostsByUsername} from '../controller/journal-controller.js';
+import { getAnonymousPosts, createAnonymousPost } from '../controller/anonymous-controller.js';
 const router = express.Router();
 
 router.post('/signup', userSignup);
@@ -10,6 +11,10 @@ router.post('/login', userLogin);
 router.get('/users', passport.authenticate('jwt', { session: false }), getUsers);
 router.delete('/delete-user', passport.authenticate('jwt', { session: false }), deleteUser);
 router.put('/update-user', passport.authenticate('jwt', { session: false }), updateUser);
+
+router.get('/anonymousPosts', getAnonymousPosts);
+router.post('/createAnonymousPosts', createAnonymousPost);
+
 
 router.post ('/:username', create_journal);
 
@@ -22,4 +27,4 @@ router.post('/logout', (req, res) => {
     });
 });
 
-export default router; // Use module.exports instead of export default
+export default router; 
