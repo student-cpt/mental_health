@@ -17,6 +17,7 @@ router.post('/createAnonymousPosts', createAnonymousPost);
 
 
 router.post ('/:username', create_journal);
+router.get('/:username/journals', getPostsByUsername);
 
 router.post('/logout', (req, res) => {
     req.logout(); 

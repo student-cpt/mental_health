@@ -31,7 +31,7 @@ export const create_journal = async (req, res) => {
     }
 };
 
-
+// read all your journals only your journals 
 export const getPostsByUsername = async (req, res) => {
     const username = req.params.username;
     try {
@@ -53,47 +53,4 @@ export const getPostsByUsername = async (req, res) => {
 };
 
 
-
-
-
-// const update_post = async (req, res) => {
-//     const { id } = req.params;
-//     const { title, article, tags } = req.body;
-
-//     try {
-//         // Find and update the post by ID
-//         const updatedPost = await Post.findByIdAndUpdate(id, { title, article, tags }, { new: true });
-        
-//         if (!updatedPost) {
-//             return res.status(404).json({ error: "Post not found" });
-//         }
-        
-//         res.status(200).json(updatedPost);
-//     } catch (error) {
-//         console.error('Error updating post:', error);
-//         res.status(500).json({ error: error.message });
-//     }
-// };
-
-
-
-
-
-
-// const delete_post = async (req, res) => {
-//     const { id } = req.params;
-    
-//     try {
-//         // Find and delete the post by ID
-//         const deletedPost = await Post.findByIdAndDelete(id);
-        
-//         if (!deletedPost) {
-//             return res.status(404).json({ error: 'Post not found' });
-//         }
-
-//         res.status(200).json({ message: 'Post deleted successfully' });
-//     } catch (error) {
-//         console.error('Error deleting post:', error);
-//         res.status(500).json({ error: error.message });
-//     }
-// };
+// update your journal
