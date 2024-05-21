@@ -5,6 +5,7 @@ import '../config/passportConfig.js';
 import { create_journal, getPostsByUsername, update_journal, delete_journal} from '../controller/journal-controller.js';
 import { getAnonymousPosts, createAnonymousPost } from '../controller/anonymous-controller.js';
 const router = express.Router();
+import { uploadFile } from '../controller/uploadControllers.js'
 
 router.post('/signup', userSignup);
 router.post('/login', userLogin);
