@@ -10,6 +10,10 @@ const journalSchema = new mongoose.Schema({
         type: String,
         required: true
     }, 
+    coverPicture: {
+        type: String, // This will store the file path
+        default: ''
+    },
     tags: [{
         type: String
     }]

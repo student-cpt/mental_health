@@ -37,6 +37,7 @@ const __dirname = path.dirname(__filename);
 
 // Serve static files from the "uploads" directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/upload1' ,express.static(path.join(__dirname, 'upload1')));
 
 
 

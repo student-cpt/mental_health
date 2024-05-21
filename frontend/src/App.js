@@ -7,6 +7,7 @@ import NotFound from './compnents/notFound/NotFound';
 import Signup from './compnents/SignupIn/Signup';
 import Login from './compnents/login/Login';
 import NoAccess from './compnents/noAccess/NoAccess';
+import Createjournal from './compnents/journal/Createjournal.jsx';
 
 const PrivateRoute = ({ children }) => {
   const { username: usernameFromUrl } = useParams(); // Extract username from URL
@@ -31,6 +32,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/unauthorizedAccess" element={<NoAccess />} />
+        <Route path='/:username/createjournal' element={<PrivateRoute><Createjournal /></PrivateRoute>} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
