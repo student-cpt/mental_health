@@ -1,5 +1,7 @@
 import Journal from "../models/journalModel.js";
 import User from "../models/userModel.js";
+import jwt from 'jsonwebtoken';
+import mongoose from "mongoose";
 
 // creating a journal
 export const create_journal = async (req, res) => {
@@ -54,3 +56,58 @@ export const getPostsByUsername = async (req, res) => {
 
 
 // update your journal
+export const update_journal = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ msg: 'No journal with that id' });
+        }
+
+        const journal = await Journal.findById(id);
+
+        if (!journal) {
+            return res.status(404).json({ msg: 'Journal not found' });
+        }
+
+        // Update journal fields (only the ones provided in the request body)
+        Object.assign(journal, req.body);
+
+        await journal.save();
+        return res.status(200).json(journal);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+
+// delete journal 
+export const delete_journal = async (req, res) => {
+    try {
+        const { id, username } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ msg: 'No journal with that ID' });
+        }
+
+        // Find the user by username
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ msg: 'User not found!' });
+        }
+
+        // Find and delete the journal
+        const journal = await Journal.findByIdAndDelete(id);
+        if (!journal) {
+            return res.status(404).json({ msg: 'Journal not found!' });
+        }
+
+        // Remove the journal ID from the user's journals array
+        user.journals = user.journals.filter(journalId => journalId.toString() !== id);
+        await user.save();
+
+        return res.status(200).json({ msg: 'Journal deleted successfully!' });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
