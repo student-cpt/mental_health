@@ -12,9 +12,9 @@ function App() {
           <Routes>
             <Route path='/:username/home' element={<Home />} />
             <Route path='/:username/profile' element={<Profile />} />
-            <Route path='*' element={<NotFound />} />
-            <Route path='/home' element={<Home />} />
             <Route path='/signup' element={<Signup />} />
+            <Route path='*' element={<NotFound />} />
+  
           </Routes>
       </BrowserRouter>
   );
