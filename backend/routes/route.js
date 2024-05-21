@@ -21,13 +21,6 @@ router.get('/:username/journals', getPostsByUsername);
 router.put('/journals/:id', passport.authenticate('jwt', { session: false }), update_journal);
 router.delete('/journal-delete/:username/:id', passport.authenticate('jwt', { session: false }), delete_journal);
 
-router.post('/logout', (req, res) => {
-    req.logout(); 
-    req.session.destroy((err) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.clearCookie('connect.sid');
-        return res.status(200).json({ message: 'Logged out successfully' });
-    });
-});
+
 
 export default router; 

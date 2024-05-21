@@ -14,7 +14,10 @@ mongoose.set('strictQuery', true);
 
 const app = express();
 app.use (express.json());
-app.use (cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Replace with the actual origin of your frontend application
+  credentials: true, // Make sure to include this option
+}));
 app.use (cookieParser());
 
 // Configure session

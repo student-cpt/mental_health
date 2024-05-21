@@ -27,7 +27,7 @@ export const userLogin = (req, res, next) => {
     }
     req.login(user, { session: false }, (err) => {
       if (err) {
-        res.send(err);
+        return res.send(err);
       }
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
       return res.status(200).json({ user, token });

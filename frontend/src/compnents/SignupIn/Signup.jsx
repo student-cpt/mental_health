@@ -46,8 +46,7 @@ export default function Signup() {
 
     return (
         <div>
-            <Navbar />
-            <div className="px-4 sm:px-6 lg:px-8 pt-20">
+            <div className="px-4 sm:px-6 lg:px-8 pt-20 ">
                 <form onSubmit={handleSubmit} className='max-w-3xl mx-auto'>
                     <div className="space-y-12">
                         <div className="border-b border-gray-900/10 pb-12">
