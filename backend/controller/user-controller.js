@@ -1,4 +1,5 @@
 import User from '../models/userModel.js';
+import Journal from '../models/journalModel.js';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 
@@ -47,12 +48,19 @@ export const getUsers = async (req, res) => {
 // Delete User
 export const deleteUser = async (req, res) => {
   try {
-    const { username } = req.body;
+    const { username } = req.params;
+
+    // Find the user by username
     const user = await User.findOneAndDelete({ username });
+    console.log(user);
     if (!user) {
       return res.status(404).json({ msg: 'User not found!' });
     }
-    return res.status(200).json({ msg: 'User deleted successfully!' });
+
+    // Delete all journals associated with the user
+    await Journal.deleteMany({ _id: { $in: user.journals } });
+
+    return res.status(200).json({ msg: 'User and associated journals deleted successfully!' });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
