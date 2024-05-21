@@ -13,7 +13,7 @@ router.post('/login', userLogin);
 router.get('/users', getUsers);
 router.get('/:username/getuserdetails', getUserDetails);
 router.delete('/delete-user/:username', deleteUser);
-router.put('/update-user', updateUser);
+router.put('/:username/update-user', updateUser);
 
 router.get('/anonymousPosts', getAnonymousPosts);
 router.post('/createAnonymousPosts', createAnonymousPost);

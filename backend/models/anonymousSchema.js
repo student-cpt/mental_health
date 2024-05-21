@@ -12,7 +12,6 @@ const anonymousSchema = new mongoose.Schema({
     options: {
         type: String,
         enum: ['happy', 'sad', 'depression', 'adhd', 'other'],
-        required: true
     },
     tags: [
         {

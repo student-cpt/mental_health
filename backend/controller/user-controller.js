@@ -2,6 +2,7 @@ import User from '../models/userModel.js';
 import Journal from '../models/journalModel.js';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
+import bcrypt from 'bcryptjs';
 
 
 // User Signup
@@ -74,14 +75,38 @@ export const deleteUser = async (req, res) => {
 // Update User
 export const updateUser = async (req, res) => {
   try {
-    const { username } = req.body;
-    const user = await User.findOne({ username });
+    const { username } = req.params;
+
+    // Validate request body
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(400).json({ msg: 'No data provided to update!' });
+    }
+
+    // Define the fields that can be updated
+    const allowedUpdates = ['name', 'email', 'bio', 'password', 'age', 'gender']; // Include 'password' for updating
+    const updates = Object.keys(req.body);
+    const isValidUpdate = updates.every(update => allowedUpdates.includes(update));
+
+    if (!isValidUpdate) {
+      return res.status(400).json({ msg: 'Invalid updates!' });
+    }
+
+    // Hash the password if it is being updated
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      req.body.password = await bcrypt.hash(req.body.password, salt);
+    }
+
+    // Find and update the user
+    const user = await User.findOneAndUpdate({ username }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
     if (!user) {
       return res.status(404).json({ msg: 'User not found!' });
     }
-    // Update user fields (only the ones provided in the request body)
-    Object.assign(user, req.body);
-    await user.save();
+
     return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ error: error.message });

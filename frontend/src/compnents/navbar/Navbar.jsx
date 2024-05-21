@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import Loader from "react-js-loader";
+
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -60,12 +62,11 @@ const Navbar = () => {
             </button>
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Journals</a>
             <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Chatroom</a>
             <a href="#" className="text-sm font-semibold leading-6 text-gray-900">AI Therapist</a>
             <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Quiz</a>
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Anonymous Sharing</a>
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">About Us</a>
+            <a href={`/${user}/anonymoussharing`} className="text-sm font-semibold leading-6 text-gray-900">Anonymous Sharing</a>
+            <a href="/aboutus" className="text-sm font-semibold leading-6 text-gray-900">About Us</a>
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {isLoggedIn ? (
@@ -121,12 +122,12 @@ const Navbar = () => {
               <div className="mt-6 flow-root">
                 <div className="-my-6 divide-y divide-gray-500/10">
                   <div className="space-y-2 py-6">
-                    <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Journals</a>
+
                     <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Chatroom</a>
                     <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">AI Therapist</a>
                     <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Quiz</a>
-                    <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Anonymous Sharing</a>
-                    <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">About Us</a>
+                    <a href={`/${user}/anonymoussharing`} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Anonymous Sharing</a>
+                    <a href="/aboutus" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">About Us</a>
                   </div>
                   <div className="py-6">
                     {isLoggedIn ? (

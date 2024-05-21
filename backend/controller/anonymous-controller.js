@@ -12,12 +12,11 @@ export const getAnonymousPosts = async (req, res) => {
 
 export const createAnonymousPost = async (req, res) => {
     try {
-        const { title, article, options, tags } = req.body;
+        const { title, article, tags } = req.body;
 
         const newPost = new Anonymous({
             title,
             article,
-            options,
             tags
         });
 

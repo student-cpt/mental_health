@@ -7,6 +7,11 @@ import NotFound from './compnents/notFound/NotFound';
 import Signup from './compnents/SignupIn/Signup';
 import Login from './compnents/login/Login';
 import NoAccess from './compnents/noAccess/NoAccess';
+import ProfileUpdate from './compnents/profile/ProfileUpdate';
+import AnonymousSharing from './compnents/anonymous/AnonymousSharing';
+import AnonymousPost from './compnents/anonymous/AnonymousPost';
+import AllAnonymousPost from './compnents/anonymous/AllAnonymousPost';
+import AboutUs from './compnents/aboutUs/AboutUs';
 
 const PrivateRoute = ({ children }) => {
   const { username: usernameFromUrl } = useParams(); // Extract username from URL
@@ -31,6 +36,13 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/unauthorizedAccess" element={<NoAccess />} />
+        <Route path="/:username/updateprofile" element={<PrivateRoute><ProfileUpdate /></PrivateRoute>} />
+        <Route path="/:username/anonymoussharing" element={<PrivateRoute><AnonymousSharing /></PrivateRoute>} />
+        <Route path="/:username/createanonymouspost" element={<PrivateRoute><AnonymousPost /></PrivateRoute>} />
+        <Route path="/:username/allanonymousposts" element={<PrivateRoute><AllAnonymousPost /></PrivateRoute>} />
+        <Route path="/aboutus" element={<AboutUs />} />
+
+
 
         <Route path="*" element={<NotFound />} />
       </Routes>
