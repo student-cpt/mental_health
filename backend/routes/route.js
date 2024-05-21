@@ -7,6 +7,7 @@ import { create_journal, getPostsByUsername, update_journal, delete_journal} fro
 import { getAnonymousPosts, createAnonymousPost } from '../controller/anonymous-controller.js';
 const router = express.Router();
 import upload from '../multer/multerConfig.js';
+import upload1 from '../multer/multerConfig1.js';
 
 router.post('/signup', upload.single('profilePicture') ,userSignup);
 router.post('/login', userLogin);
@@ -19,7 +20,7 @@ router.get('/anonymousPosts', getAnonymousPosts);
 router.post('/createAnonymousPosts', createAnonymousPost);
 
 
-router.post ('/:username', create_journal);
+router.post ('/:username', upload1.single('coverPicture'), create_journal);
 router.get('/:username/journals', getPostsByUsername);
 router.put('/journals/:id', update_journal);
 router.delete('/journal-delete/:username/:id', delete_journal);
