@@ -26,7 +26,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/:username/home" element={<PrivateRoute><Home /></PrivateRoute>} />
+        <Route path="/" element={<Home />} />
         <Route path="/:username/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />

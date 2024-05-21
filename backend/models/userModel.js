@@ -1,8 +1,5 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import Journal from '../models/journalModel.js';
-
-
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -38,12 +35,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  profilePicture: {
+    type: String, // This will store the file path
+    default: ''
+  },
   journals: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Journal'
   }]
 }, {
-  timestamps: true 
+  timestamps: true
 });
 
 // Hash password before saving

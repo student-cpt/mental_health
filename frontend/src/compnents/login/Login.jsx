@@ -15,7 +15,7 @@ const Login = () => {
       console.log (response);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('tokenUser', response.data.user.username);
-      navigate(`/${username}/home`);
+      navigate(`/`);
     } catch (err) {
       setError('Invalid username or password');
     }

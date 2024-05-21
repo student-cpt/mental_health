@@ -1,7 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../navbar/Navbar';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+
+const Loader = () => (
+  <div className="flex justify-center items-center h-screen">
+    <div className="loader">Loading...</div>
+  </div>
+);
 
 const Profile = () => {
+  const [userDetails, setUserDetails] = useState(null);
+  
+  // Accessing username from URL params
+  const { username } = useParams();
+
+  useEffect(() => {
+    // Function to fetch user details
+    const fetchUserDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/${username}/getuserdetails`);
+        // Set user details in state
+        console.log (response);
+        setUserDetails(response.data);
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    };
+
+    // Call the function to fetch user details when component mounts
+    fetchUserDetails();
+  }, [username]); // Fetch user details whenever username changes
+
+  if (!userDetails) {
+    // If userDetails is null, show the loader
+    return <Loader />;
+  }
+
+
   return (
     <>
     <Navbar />
@@ -41,7 +77,7 @@ const Profile = () => {
                   <div className="relative">
                     <img
                       alt="Profile"
-                      src="https://media.licdn.com/dms/image/D4D03AQHNveWmqg3ScA/profile-displayphoto-shrink_800_800/0/1691382068333?e=2147483647&v=beta&t=xWKGao8_bC1HZNz9YaBXG_qTXpv6vb7Vtcu7oNVkGYc"
+                      src={`http://localhost:8000/${userDetails.profilePicture}`}
                       className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-24 max-w-[180px]"
                     />
                   </div>
@@ -59,7 +95,7 @@ const Profile = () => {
                 <div className="w-full lg:w-4/12 px-4 lg:order-1">
                   <div className="flex justify-center py-4 lg:pt-4 pt-8">
                     <div className="mr-4 p-3 text-center">
-                      <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">10</span>
+                      <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{userDetails.journals.length}</span>
                       <span className="text-sm text-blueGray-400">Number of Journals</span>
                     </div>
                   </div>
@@ -67,30 +103,22 @@ const Profile = () => {
               </div>
               <div className="text-center mt-12">
                 <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                  Manan Hingorani
+                  {userDetails.name}
                 </h3>
-                <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                  <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
-                  Los Angeles, California
-                </div>
                 <div className="mb-2 text-blueGray-600 mt-10">
                   <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                  Solution Manager - Creative Tim Officer
+                 Age: {userDetails.age}
                 </div>
                 <div className="mb-2 text-blueGray-600">
                   <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
-                  University of Computer Science
+                  Email: {userDetails.email}
                 </div>
               </div>
               <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-9/12 px-4">
                     <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                      An artist of considerable range, Jenna the name taken by
-                      Melbourne-raised, Brooklyn-based Nick Murphy writes,
-                      performs and records all of his own music, giving it a
-                      warm, intimate feel with a solid groove structure. An
-                      artist of considerable range.
+                      {userDetails.bio}
                     </p>
                   </div>
                 </div>

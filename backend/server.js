@@ -8,7 +8,9 @@ import session from 'express-session';
 import passport from 'passport';
 import userRoutes from './routes/route.js';
 import Connection from './database/db.js';
+import path from 'path';
 
+import { fileURLToPath } from 'url';
 mongoose.set('strictQuery', true);
 
 
@@ -30,6 +32,11 @@ app.use(session({
 // Initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the "uploads" directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 

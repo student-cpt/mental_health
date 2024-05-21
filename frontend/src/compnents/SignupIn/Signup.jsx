@@ -1,10 +1,8 @@
-import Navbar from '../navbar/Navbar'
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { useNavigate } from 'react-router-dom';
+import { PhotoIcon } from '@heroicons/react/24/solid';
 
 export default function Signup() {
-
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -14,6 +12,8 @@ export default function Signup() {
         bio: '',
         age: ''
     });
+
+    const [profilePicture, setProfilePicture] = useState(null);
 
     const navigate = useNavigate();
 
@@ -25,28 +25,34 @@ export default function Signup() {
         });
     };
 
+    const handleFileChange = (e) => {
+        setProfilePicture(e.target.files[0]);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Send form data to backend for signup
+            const formDataWithFile = new FormData();
+            for (const key in formData) {
+                formDataWithFile.append(key, formData[key]);
+            }
+            if (profilePicture) {
+                formDataWithFile.append('profilePicture', profilePicture);
+            }
+
             const response = await fetch('http://localhost:8000/signup', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+                body: formDataWithFile,
             });
             const data = await response.json();
             console.log('Signup successful:', data);
-            navigate('/thankyou');
-
+            navigate('/login');
         } catch (error) {
             console.error('Error signing up:', error);
         }
     };
 
     const handleCancel = () => {
-        // Clear the form fields
         setFormData({
             username: '',
             password: '',
@@ -56,17 +62,34 @@ export default function Signup() {
             bio: '',
             age: ''
         });
+        setProfilePicture(null);
     };
 
     return (
         <div>
-            <div className="px-4 sm:px-6 lg:px-8 pt-20 ">
+            <div className="px-4 sm:px-6 lg:px-8 pt-20 bg-gradient-to-r from-zinc-50 to-red-100">
                 <form onSubmit={handleSubmit} className='max-w-3xl mx-auto'>
                     <div className="space-y-12">
                         <div className="border-b border-gray-900/10 pb-12">
                             <h2 className="text-2xl font-bold leading-7 text-gray-900 text-center mb-8">Signup</h2> {/* Center align and increase font size */}
 
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 col-span-full">
+                            <div className="col-span-full">
+                                    <label htmlFor="profilePicture" className="block text-sm font-medium leading-6 text-gray-900">Profile Picture</label>
+                                    <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                        <div className="text-center">
+                                            <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+                                            <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                                                <label htmlFor="file-upload" className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                                                    <span>Upload a file</span>
+                                                    <input id="file-upload" name="profilePicture" type="file" onChange={handleFileChange} className="sr-only" />
+                                                </label>
+                                                <p className="pl-1">or drag and drop</p>
+                                            </div>
+                                            <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="sm:col-span-4">
                                     <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
                                         Username
@@ -125,28 +148,7 @@ export default function Signup() {
                             </div>
                         </div>
 
-                        <div className="col-span-full">
-                            <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
-                                Cover photo
-                            </label>
-                            <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                                <div className="text-center">
-                                    <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-                                    <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                                        <label
-                                            htmlFor="file-upload"
-                                            className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                                        >
-                                            <span>Upload a file</span>
-                                            <input id="file-upload" name="file-upload" type="file" className="sr-only" />
-                                        </label>
-                                        <p className="pl-1">or drag and drop</p>
-                                    </div>
-                                    <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-                                </div>
-                            </div>
-                        </div>
-
+                        
                         <div className="border-b border-gray-900/10 pb-12">
                             <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
                             <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>

@@ -5,19 +5,24 @@ import passport from 'passport';
 
 
 // User Signup
+// User Signup
 export const userSignup = async (req, res) => {
   try {
-    let exist = await User.findOne({ username: req.body.username });
-    if (exist) {
-      return res.status(200).json({ msg: 'User already exists!' });
-    }
-    const newUser = new User(req.body);
-    await newUser.save();
-    return res.status(200).json(newUser);
+      let exist = await User.findOne({ username: req.body.username });
+      if (exist) {
+          return res.status(200).json({ msg: 'User already exists!' });
+      }
+      const newUser = new User(req.body);
+      if (req.file) {
+          newUser.profilePicture = req.file.path; // save the file path to the user document
+      }
+      await newUser.save();
+      return res.status(200).json(newUser);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+      return res.status(500).json({ error: error.message });
   }
 };
+
 
 // User Login
 export const userLogin = (req, res, next) => {
@@ -80,5 +85,25 @@ export const updateUser = async (req, res) => {
     return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ error: error.message });
+  }
+};
+
+
+export const getUserDetails = async (req, res) => {
+  try {
+    // Find the user based on the username provided in the request parameters
+    const user = await User.findOne({ username: req.params.username });
+
+    if (!user) {
+      // If user not found, send 404 status with error message
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // If user found, send user details in the response
+    res.json(user);
+  } catch (error) {
+    // If any error occurs, send 500 status with error message
+    console.error('Error fetching user details:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
