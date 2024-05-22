@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import Loader from 'react-js-loader';
 import Navbar from '../navbar/Navbar';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const API_KEY = 'AIzaSyAvLasACbpdHZm3saPcQXY5xsCFsCA5CFc';
+
+const API_KEY = process.env.apiUrl;
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 const questions = [
