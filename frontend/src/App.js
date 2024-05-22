@@ -13,6 +13,7 @@ import AnonymousPost from './compnents/anonymous/AnonymousPost';
 import AllAnonymousPost from './compnents/anonymous/AllAnonymousPost';
 import AboutUs from './compnents/aboutUs/AboutUs';
 import Createjournal from './compnents/journal/Createjournal.jsx';
+import MoodTrack from './compnents/moodtrack/MoodTrack.jsx';
 
 const PrivateRoute = ({ children }) => {
   const { username: usernameFromUrl } = useParams(); // Extract username from URL
@@ -41,14 +42,16 @@ function App() {
         <Route path="/:username/anonymoussharing" element={<PrivateRoute><AnonymousSharing /></PrivateRoute>} />
         <Route path="/:username/createanonymouspost" element={<PrivateRoute><AnonymousPost /></PrivateRoute>} />
         <Route path="/:username/allanonymousposts" element={<PrivateRoute><AllAnonymousPost /></PrivateRoute>} />
+        <Route path="/:username/mood" element={<PrivateRoute><MoodTrack /></PrivateRoute>} />
         <Route path="/aboutus" element={<AboutUs />} />
+        
 
 
         <Route path='/:username/createjournal' element={<PrivateRoute><Createjournal /></PrivateRoute>} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
   );
 }
 

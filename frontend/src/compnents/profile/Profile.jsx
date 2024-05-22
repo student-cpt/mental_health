@@ -42,7 +42,9 @@ const Profile = () => {
 
   return (
     <>
-    <Navbar />
+    <div className=''>
+    <Navbar/>
+    </div>
     <main className="profile-page mt-20">
       <section className="relative block h-[500px]">
         <div
