@@ -10,6 +10,10 @@ const router = express.Router();
 import upload from '../multer/multerConfig.js';
 import upload1 from '../multer/multerConfig1.js';
 import { getJournalById } from '../controller/journal-controller.js';
+import cors from 'cors';
+
+
+router.use(cors());
 
 router.post('/signup', upload.single('profilePicture') ,userSignup);
 router.post('/login', userLogin);
@@ -24,7 +28,7 @@ router.post('/createAnonymousPosts', createAnonymousPost);
 
 router.post ('/:username', upload1.single('coverPicture'), create_journal);
 router.get('/:username/journals', getPostsByUsername);
-router.put('/journals/:id', update_journal);
+router.put('/journals/:username/:id', update_journal);
 router.delete('/journal-delete/:username/:id', delete_journal);
 router.get('/:username/:id', getJournalById);
 

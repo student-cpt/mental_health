@@ -9,6 +9,7 @@ import Readjournal from '../journal/Readjournal';
 import defaultProfilePicture from './download2.jpg';
 
 
+
 const Profile = () => {
   const [userDetails, setUserDetails] = useState(null);
   
