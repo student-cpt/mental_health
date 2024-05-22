@@ -6,6 +6,7 @@ import Loader from "react-js-loader";
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false); 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const user = localStorage.getItem('tokenUser');
@@ -37,6 +38,31 @@ const Navbar = () => {
       console.error('Error logging out:', err);
     }
   };
+  const handleDelete = () => {
+    // Show delete modal
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      // Call the backend route to delete the user
+      await fetch(`http://localhost:8000/delete-user/${user}`, {
+        method: 'DELETE',
+      });
+      // Perform logout after deletion
+      localStorage.removeItem('token');
+      localStorage.removeItem('tokenUser');
+      setIsLoggedIn(false);
+      navigate('/login');
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
+
+  const closeModal = () => {
+    // Close the delete modal
+    setShowDeleteModal(false);
+  };
 
   return (
     
@@ -64,7 +90,7 @@ const Navbar = () => {
           <div className="hidden lg:flex lg:gap-x-12">
             <a href={`/${user}/mood`} className="text-sm font-semibold leading-6 text-gray-900">Mood Tracker</a>
             <a href="#" className="text-sm font-semibold leading-6 text-gray-900">AI Therapist</a>
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Quiz</a>
+            <a href={`/${user}/quiz`} className="text-sm font-semibold leading-6 text-gray-900">Quiz</a>
             <a href={`/${user}/anonymoussharing`} className="text-sm font-semibold leading-6 text-gray-900">Anonymous Sharing</a>
             <a href="/aboutus" className="text-sm font-semibold leading-6 text-gray-900">About Us</a>
           </div>
@@ -88,7 +114,8 @@ const Navbar = () => {
                 {dropdownOpen && (
                   <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
                     <a href={`/${user}/profile`} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">Your Profile</a>
-                    <a onClick={handleLogout} href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</a>
+                    <a onClick={(e) => handleLogout(e)} href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</a>
+                    <a onClick={handleDelete} href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Delete Profile</a>
                   </div>
                 )}
               </div>
@@ -125,7 +152,7 @@ const Navbar = () => {
 
                     <a href={`/${user}/mood`} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mood Tracker</a>
                     <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">AI Therapist</a>
-                    <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Quiz</a>
+                    <a href={`/${user}/quiz`} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Quiz</a>
                     <a href={`/${user}/anonymoussharing`} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Anonymous Sharing</a>
                     <a href="/aboutus" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">About Us</a>
                   </div>
@@ -147,7 +174,8 @@ const Navbar = () => {
                         {dropdownOpen && (
                           <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button-mobile" tabIndex="-1">
                             <a href={`/${user}/profile`} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0-mobile">Your Profile</a>
-                            <a onClick={handleLogout} href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2-mobile">Sign out</a>
+                            <a onClick={(e) => handleLogout(e)} href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</a>
+                    <a onClick={handleDelete} href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Delete Profile</a>
                           </div>
                         )}
                       </div>
@@ -163,7 +191,43 @@ const Navbar = () => {
           </div>
         )}
       </header>
+      {/* Delete Profile Modal */}
+      {showDeleteModal && (
+        <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div className="sm:flex sm:items-start">
+                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                      Delete Profile
+                    </h3>
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500">
+                        Are you sure you want to delete your profile? This action cannot be undone.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button onClick={confirmDelete} type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                  Delete
+                </button>
+                <button onClick={closeModal} type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+
   );
 };
 

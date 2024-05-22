@@ -56,7 +56,7 @@ const MoodTrack = () => {
   return (
     <>
     <Navbar />
-    <div className="container mx-auto p-4 mt-20">
+    <div className="container mx-auto p-12 mt-20 bg-[#FAFAEB] rounded-lg shadow-lg border-black">
       <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
         <div className="text-center">
           <input
