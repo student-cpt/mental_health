@@ -13,6 +13,8 @@ import AnonymousPost from './compnents/anonymous/AnonymousPost';
 import AllAnonymousPost from './compnents/anonymous/AllAnonymousPost';
 import AboutUs from './compnents/aboutUs/AboutUs';
 import Createjournal from './compnents/journal/Createjournal.jsx';
+import Readjournal from './compnents/journal/Readjournal.jsx';
+import JournalDetail from './compnents/journal/Readonejournal.jsx';
 
 const PrivateRoute = ({ children }) => {
   const { username: usernameFromUrl } = useParams(); // Extract username from URL
@@ -45,6 +47,8 @@ function App() {
 
 
         <Route path='/:username/createjournal' element={<PrivateRoute><Createjournal /></PrivateRoute>} />
+        <Route path='/:username/readjournals' element={<PrivateRoute><Readjournal /></PrivateRoute>} />
+        <Route path='/:username/readjournals/:id' element={<PrivateRoute><JournalDetail /></PrivateRoute>} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

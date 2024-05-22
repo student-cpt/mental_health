@@ -3,36 +3,6 @@ import User from "../models/userModel.js";
 import jwt from 'jsonwebtoken';
 import mongoose from "mongoose";
 
-// creating a journal
-// export const create_journal = async (req, res) => {
-//     const { title, article, tags } = req.body;
-//     const { username } = req.params;
-//     console.log(username);
-//     console.log(req.body);
-
-//     try {
-//         const user = await User.findOne({ username });
-//         console.log(user);
-//         if (!user) {
-//             return res.status(404).json({ error: 'User not found' });
-//         }
-
-//         const journalAdded = await Journal.create({
-//             title,
-//             article,
-//             tags,
-//         });
-
-//         user.journals.push(journalAdded._id);
-//         await user.save();
-
-//         res.status(201).json(journalAdded);
-//     } catch (error) {
-//         console.log(error);
-//         res.status(400).json({ error: error.message });
-//     }
-// };
-
 export const create_journal = async (req, res) => {
     const { title, article, tags } = req.body;
     const { username } = req.params;
@@ -146,3 +116,28 @@ export const delete_journal = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 };
+
+
+// Fetch a single journal post by its ID
+export const getJournalById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // if (!mongoose.Types.ObjectId.isValid(id)) {
+        //     return res.status(404).json({ error: 'Invalid journal ID' });
+        // }
+
+        // Find the journal by its ID
+        const journal = await Journal.findById(id);
+
+        if (!journal) {
+            return res.status(404).json({ error: 'Journal not found' });
+        }
+
+        return res.status(200).json(journal);
+    } catch (error) {
+        console.error('Error fetching journal by ID:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
