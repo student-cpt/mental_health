@@ -17,6 +17,7 @@ import Readjournal from './compnents/journal/Readjournal.jsx';
 import JournalDetail from './compnents/journal/Readonejournal.jsx';
 import MoodTrack from './compnents/moodtrack/MoodTrack.jsx';
 import Quiz from './compnents/quiz/Quiz.jsx';
+import UpdateJournal from './compnents/journal/Updatejournal.jsx';
 
 const PrivateRoute = ({ children }) => {
   const { username: usernameFromUrl } = useParams(); // Extract username from URL
@@ -54,6 +55,7 @@ function App() {
         <Route path='/:username/createjournal' element={<PrivateRoute><Createjournal /></PrivateRoute>} />
         <Route path='/:username/readjournals' element={<PrivateRoute><Readjournal /></PrivateRoute>} />
         <Route path='/:username/readjournals/:id' element={<PrivateRoute><JournalDetail /></PrivateRoute>} />
+        <Route path="/:username/journals/:id/edit" element={<PrivateRoute><UpdateJournal /> </PrivateRoute>} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

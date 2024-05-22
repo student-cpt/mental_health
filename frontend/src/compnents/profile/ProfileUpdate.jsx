@@ -1,67 +1,105 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PhotoIcon } from '@heroicons/react/24/solid';
 
-export default function ProfileUpdate() {
-  const [formData, setFormData] = useState({
-    password: '',
-    name: '',
-    email: '',
-    gender: '',
-    bio: '',
-    age: '',
-  });
+const ProfileUpdate = () => {
 
-  const [profilePicture, setProfilePicture] = useState(null);
-  const navigate = useNavigate();
-  const { username } = useParams(); // Get username from URL parameter
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [gender, setGender] = useState('');
+    const [age, setAge] = useState('');
+    const [bio, setBio] = useState('');
+    const [profilePicture, setProfilePicture] = useState(null);
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+    const { username } = useParams(); // Get username from URL parameter
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            try {
+                const response = await fetch(`http://localhost:8000/${username}/getuserdetails`);
+                if (response.ok) {
+                    const data = await response.json(); // Extract JSON data from response
+                    const { password, name, email, gender, age, bio, profilePicture } = data;
+                    setPassword(password);
+                    setName(name);
+                    setEmail(email);
+                    setGender(gender);
+                    setAge(age);
+                    setBio(bio);
+                    setProfilePicture(profilePicture);
+                } else {
+                    setError('Failed to fetch user details');
+                }
+            } catch (error) {
+                console.error('Error fetching user details:', error);
+                setError('Failed to fetch user details');
+            }
+        };
+    
+        fetchUserDetails();
+    }, [username]);
+    
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if(name =='password') setPassword(value);
+        if(name == 'name') setName(value);
+        if(name=='email') setEmail(value);
+        if(name=='gender') setGender(value);
+        if(name == 'age') setAge(value);
+        if(name=='bio') setBio(value);
 
-  const handleFileChange = (e) => {
-    setProfilePicture(e.target.files[0]);
-  };
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const formDataWithFile = new FormData();
-      for (const key in formData) {
-        formDataWithFile.append(key, formData[key]);
-      }
-      if (profilePicture) {
-        formDataWithFile.append('profilePicture', profilePicture);
-      }
+    const handleFileChange = (e) => {
+        setProfilePicture(e.target.files[0]);
+    };
 
-      const response = await fetch(`http://localhost:8000/${username}/update-user`, {
-        method: 'PUT',
-        body: formDataWithFile,
-      });
-      const data = await response.json();
-      console.log('Profile update successful:', data);
-      navigate(`/${username}/profile`); // Redirect to profile page after update
-    } catch (error) {
-      console.error('Error updating profile:', error);
-    }
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData();
+            formData.append('password', password);
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('gender', gender);
+            formData.append('age', age);
+            formData.append('bio', bio);
+            if (profilePicture) {
+                formData.append('profilePicture', profilePicture);
+            }
 
-  const handleCancel = () => {
-    setFormData({
-      password: '',
-      name: '',
-      email: '',
-      gender: '',
-      bio: '',
-      age: '',
-    });
-    setProfilePicture(null);
-  };
+            const formDataObject = {};
+for (const [key, value] of formData.entries()) {
+    formDataObject[key] = value;
+}
+
+console.log('Submitting form data:');
+for (const [key, value] of Object.entries(formDataObject)) {
+    console.log(`${key}: ${value}`);
+}
+                        
+
+            const response = await fetch(`http://localhost:8000/${username}/update-user`, {
+                method: 'PUT',
+                body: formDataObject,
+            });
+            if (response.status == 200) {
+                console.log('Profile update successful:', response.data);
+                navigate(`/${username}/profile`); // Redirect to profile page after update
+            } else {
+                setError('Failed to update profile');
+            }
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            setError('Failed to update profile');
+        }
+    };
+
+    const handleCancel = () => {
+        navigate(`/${username}/profile`);
+    };
 
     return (
         <div>
@@ -72,7 +110,7 @@ export default function ProfileUpdate() {
                             <h2 className="text-2xl font-bold leading-7 text-gray-900 text-center mb-8">Signup</h2> {/* Center align and increase font size */}
 
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 col-span-full">
-                            <div className="col-span-full">
+                                <div className="col-span-full">
                                     <label htmlFor="profilePicture" className="block text-sm font-medium leading-6 text-gray-900">Profile Picture</label>
                                     <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                         <div className="text-center">
@@ -100,7 +138,7 @@ export default function ProfileUpdate() {
                                                 name="password"
                                                 id="password"
                                                 autoComplete="current-password"
-                                                value={formData.password}
+                                                value={password}
                                                 onChange={handleChange}
                                                 className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                             />
@@ -117,7 +155,7 @@ export default function ProfileUpdate() {
                                             id="bio"
                                             name="bio"
                                             rows={3}
-                                            value={formData.bio}
+                                            value={bio}
                                             onChange={handleChange}
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
@@ -127,7 +165,7 @@ export default function ProfileUpdate() {
                             </div>
                         </div>
 
-                        
+
                         <div className="border-b border-gray-900/10 pb-12">
                             <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
                             <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
@@ -143,7 +181,7 @@ export default function ProfileUpdate() {
                                             name="name"
                                             id="name"
                                             autoComplete="given-name"
-                                            value={formData.name}
+                                            value={name}
                                             onChange={handleChange}
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
@@ -160,7 +198,7 @@ export default function ProfileUpdate() {
                                             name="email"
                                             type="email"
                                             autoComplete="email"
-                                            value={formData.email}
+                                            value={email}
                                             onChange={handleChange}
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
@@ -176,7 +214,7 @@ export default function ProfileUpdate() {
                                             id="gender"
                                             name="gender"
                                             autoComplete="gender"
-                                            value={formData.gender}
+                                            value={gender}
                                             onChange={handleChange}
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                         >
@@ -198,7 +236,7 @@ export default function ProfileUpdate() {
                                             name="age"
                                             id="age"
                                             autoComplete="age"
-                                            value={formData.age}
+                                            value={age}
                                             onChange={handleChange}
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
@@ -224,3 +262,5 @@ export default function ProfileUpdate() {
         </div>
     )
 }
+
+export default ProfileUpdate;
