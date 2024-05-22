@@ -3,11 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PhotoIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
 
-const Loader = () => (
-  <div className="flex justify-center items-center h-screen">
-    <div className="loader">Loading...</div>
-  </div>
-);
 
 const Createjournal = () => {
     const [formData, setFormData] = useState({
@@ -17,7 +12,6 @@ const Createjournal = () => {
     });
 
     const [coverPicture, setCoverPicture] = useState(null);
-    const [loading, setLoading] = useState(false);
 
     const { username } = useParams();
     const navigate = useNavigate();
@@ -45,7 +39,6 @@ const Createjournal = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent the default form submission
-        setLoading(true); // Set loading state to true while sending the request
         try {
             const formDataWithFile = new FormData();
             for (const key in formData) {
@@ -61,26 +54,25 @@ const Createjournal = () => {
 
             const response = await axios.post(`http://localhost:8000/${username}`, formDataWithFile, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'method': 'POST'
                 }
             });
 
-            if (!response.ok) {
+            if (!response) {
                 throw new Error('Network response was not ok');
             }
+            else{
+                console.log('Journal successful:', response.data);
+                navigate(`/${username}/profile`);
+            }
 
-            console.log('Journal successful:', response.data);
-            navigate(`/${username}/profile`);
+            
         } catch (error) {
             console.error('Error creating journal:', error);
-        } finally {
-            setLoading(false); // Set loading state back to false after request completes
         }
     };
 
-    if (loading) {
-        return <Loader />; // Show loader while data is being submitted
-    }
 
     return (
         <div>
@@ -181,3 +173,5 @@ const Createjournal = () => {
 }
 
 export default Createjournal;
+
+
