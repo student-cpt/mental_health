@@ -4,6 +4,35 @@ import jwt from 'jsonwebtoken';
 import mongoose from "mongoose";
 
 // creating a journal
+// export const create_journal = async (req, res) => {
+//     const { title, article, tags } = req.body;
+//     const { username } = req.params;
+//     console.log(username);
+//     console.log(req.body);
+
+//     try {
+//         const user = await User.findOne({ username });
+//         console.log(user);
+//         if (!user) {
+//             return res.status(404).json({ error: 'User not found' });
+//         }
+
+//         const journalAdded = await Journal.create({
+//             title,
+//             article,
+//             tags,
+//         });
+
+//         user.journals.push(journalAdded._id);
+//         await user.save();
+
+//         res.status(201).json(journalAdded);
+//     } catch (error) {
+//         console.log(error);
+//         res.status(400).json({ error: error.message });
+//     }
+// };
+
 export const create_journal = async (req, res) => {
     const { title, article, tags } = req.body;
     const { username } = req.params;
@@ -17,11 +46,17 @@ export const create_journal = async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const journalAdded = await Journal.create({
+        const journalData = {
             title,
             article,
             tags,
-        });
+        };
+
+        if (req.file) {
+            journalData.coverPicture = req.file.path; // save the file path to the journal document
+        }
+
+        const journalAdded = await Journal.create(journalData);
 
         user.journals.push(journalAdded._id);
         await user.save();
