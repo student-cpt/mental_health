@@ -27,19 +27,24 @@ export const userSignup = async (req, res) => {
 
 
 // User Login
-export const userLogin = (req, res, next) => {
-  passport.authenticate('local', { session: false }, (err, user, info) => {
-    if (err || !user) {
-      return res.status(401).json({ message: 'Invalid login', error: info });
+
+export const userLogin = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Find user by username
+    const user = await User.findOne({ username });
+
+    // Check if user exists and if the password is correct
+    if (!user || !bcrypt.compareSync(password, user.password)) {
+      return res.status(401).json({ message: 'Invalid username or password' });
     }
-    req.login(user, { session: false }, (err) => {
-      if (err) {
-        return res.send(err);
-      }
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-      return res.status(200).json({ user, token });
-    });
-  })(req, res, next);
+
+    // Return user details and token
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 };
 
 // Get All Users
@@ -151,9 +156,11 @@ export const updateUser = async (req, res) => {
 
       return res.status(200).json(user);
   } catch (error) {
+      console.error('Error updating user:', error);
       return res.status(500).json({ error: error.message });
   }
 };
+
 
 
 export const getUserDetails = async (req, res) => {
