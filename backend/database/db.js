@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 
+
 export const Connection = async () => {
-    const URL = `mongodb+srv://manan:root@cluster0.y87adak.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+    const URL = process.env.MOGODB_URL;
 
     try {
         await mongoose.connect(URL, {useUnifiedTopology: true, useNewUrlParser: true});
