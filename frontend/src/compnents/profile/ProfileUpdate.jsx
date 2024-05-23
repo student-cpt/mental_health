@@ -19,7 +19,7 @@ const ProfileUpdate = () => {
         const fetchUserDetails = async () => {
             try {
                 const response = await fetch(`http://localhost:8000/${username}/getuserdetails`);
-                if (response.ok) {
+                if (response.status == 200) {
                     const data = await response.json(); // Extract JSON data from response
                     const { name, email, gender, age, bio, profilePicture } = data;
                     setName(name);
@@ -54,6 +54,8 @@ const ProfileUpdate = () => {
         setProfilePicture(e.target.files[0]);
     };
 
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -69,11 +71,19 @@ const ProfileUpdate = () => {
             if (profilePicture) {
                 formData.append('profilePicture', profilePicture);
             }
+    
+            // Log the contents of formData
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
 
+            console.log(formData)
+    
             const response = await fetch(`http://localhost:8000/${username}/update-user`, {
-                method: 'PUT',
+                method: 'PATCH',
                 body: formData,
             });
+    
             if (response.ok) {
                 const data = await response.json();
                 console.log('Profile update successful:', data);
@@ -86,6 +96,7 @@ const ProfileUpdate = () => {
             setError('Failed to update profile');
         }
     };
+    
 
     const handleCancel = () => {
         navigate(`/${username}/profile`);
