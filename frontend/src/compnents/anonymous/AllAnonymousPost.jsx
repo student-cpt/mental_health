@@ -21,20 +21,31 @@ const AllAnonymousPost = () => {
     <>
       <Navbar />
       <div className="container mx-auto py-8 mt-24">
-        <h1 className="text-3xl font-bold mb-6 ">All Anonymous Posts</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">All Anonymous Posts</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {anonymousPosts.map(post => (
-            <div key={post._id} className="bg-white shadow-md rounded-md p-4">
-              <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
-              <p className="text-gray-600">{post.article}</p>
-              <div className="flex justify-between items-center mt-4">
-                <div className="flex items-center">
-                  <span className="text-gray-500">Tags:</span>
-                  <ul className="ml-2">
+            <div key={post._id} className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl">
+              <div className="bg-gray-100 border-b border-gray-200 rounded-t-xl py-3 px-4 md:py-4 md:px-5">
+                <p className="mt-1 text-sm text-gray-600">
+                  {post.featured && 'Featured'}
+                </p>
+              </div>
+              <div className="p-4 md:p-5">
+                <h3 className="text-lg font-bold text-gray-800">
+                  {post.title}
+                </h3>
+                <p className="mt-2 text-gray-600">
+                  {post.article}
+                </p>
+                <div className="flex items-center mt-4">
+                  <span className="text-gray-500 mr-2">Tags:</span>
+                  <div className="flex flex-wrap">
                     {post.tags.map((tag, index) => (
-                      <li key={index} className="inline-block bg-gray-200 text-gray-600 px-2 py-1 rounded-md text-sm mr-2">{tag}</li>
+                      <span key={index} className="m-1 bg-gray-200 hover:bg-gray-300 rounded-full px-2 font-bold text-sm leading-loose cursor-pointer">
+                        {tag}
+                      </span>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </div>
             </div>

@@ -54,15 +54,3 @@ server.listen(port, () => {
   console.log("Server is running on port", port);
 });
 
-// Socket.io logic
-io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
-
-  socket.on('sendMessage', (message) => {
-    io.emit('receiveMessage', message); // Broadcast to all connected clients
-  });
-
-  socket.on('disconnect', () => {
-    console.log('A user disconnected:', socket.id);
-  });
-});

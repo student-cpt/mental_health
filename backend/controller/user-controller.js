@@ -9,9 +9,9 @@ import bcrypt from 'bcryptjs';
 // User Signup
 export const userSignup = async (req, res) => {
   try {
-      let exist = await User.findOne({ username: req.body.username });
+      let exist = await User.findOne({ $or: [{ username: req.body.username }, { email: req.body.email }] });
       if (exist) {
-          return res.status(200).json({ msg: 'User already exists!' });
+          return res.status(409).json({ msg: 'Username or email already exists!' });
       }
       const newUser = new User(req.body);
       if (req.file) {
@@ -23,6 +23,7 @@ export const userSignup = async (req, res) => {
       return res.status(500).json({ error: error.message });
   }
 };
+
 
 
 // User Login

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import Loader from 'react-js-loader';
 import Navbar from '../navbar/Navbar';
@@ -7,10 +7,17 @@ import './Therapist.css';
 const API_KEY = process.env.REACT_APP_API_KEY;
 const genAI = new GoogleGenerativeAI(API_KEY);
 
+const TypingAnimation = ({ color }) => (
+  <div className="item text-2xl">
+    <Loader type="ping-cube" bgColor={color} color={color} size={100} />
+  </div>
+);
+
 const Therapist = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const chatBoxRef = useRef(null);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -30,6 +37,9 @@ const Therapist = () => {
       // Replace **word** with <strong>word</strong>
       aiMessage = aiMessage.replace(/\*\*(.*?)\*\*/g, '$1');
 
+      // Simulate typing delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       setMessages([...messages, newMessage, { sender: 'ai', text: aiMessage }]);
     } catch (error) {
       console.error('Error generating response:', error);
@@ -45,22 +55,25 @@ const Therapist = () => {
     if (e.key === 'Enter') handleSend();
   };
 
+  useEffect(() => {
+    // Scroll to the bottom of the chat box whenever messages change
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <>
       <Navbar />
       <div className="therapist-container">
         <h1 className="heading">Your Personal AI Assistant</h1>
-        <div className="chat-box">
+        <div ref={chatBoxRef} className="chat-box">
           {messages.map((msg, index) => (
             <div key={index} className={`message ${msg.sender === 'user' ? 'user-message' : 'ai-message'}`}>
               {msg.text}
             </div>
           ))}
-          {loading && (
-            <div className="message loading">
-              <Loader type="spinner-cub" bgColor={"#000000"} color={"#FFFFFF"} title={"spinner-cub"} size={30} />
-            </div>
-          )}
+          {loading && <TypingAnimation color="#007BFF" />}
         </div>
         <div className="input-container">
           <input

@@ -14,7 +14,8 @@ export default function Signup() {
     });
 
     const [profilePicture, setProfilePicture] = useState(null);
-
+    const [error, setError] = useState('');
+    const [missingDetailsError, setMissingDetailsError] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -31,6 +32,16 @@ export default function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Check if all required fields are filled
+        const requiredFields = ['username', 'password', 'name', 'email', 'gender', 'age'];
+        const missingFields = requiredFields.filter(field => !formData[field]);
+
+        if (missingFields.length > 0) {
+            setMissingDetailsError('Please fill in all required fields.');
+            return;
+        }
+
         try {
             const formDataWithFile = new FormData();
             for (const key in formData) {
@@ -44,6 +55,17 @@ export default function Signup() {
                 method: 'POST',
                 body: formDataWithFile,
             });
+
+            if (response.status === 409) {
+                const data = await response.json();
+                setError(data.msg);
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
             const data = await response.json();
             console.log('Signup successful:', data);
             navigate('/login');
@@ -63,18 +85,52 @@ export default function Signup() {
             age: ''
         });
         setProfilePicture(null);
+        setError('');
+        setMissingDetailsError('');
+    };
+
+    const closeModal = () => {
+        setError('');
+        setMissingDetailsError('');
     };
 
     return (
         <div>
             <div className="px-4 sm:px-6 lg:px-8 pt-20 bg-gradient-to-r from-zinc-50 to-red-100">
+                {(error || missingDetailsError) && (
+                    <div className="fixed inset-0 flex items-center justify-center z-50">
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                        <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+                            <div className="bg-red-100 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div className="sm:flex sm:items-start">
+                                    <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-200 sm:mx-0 sm:h-10 sm:w-10">
+                                        <svg className="h-6 w-6 text-red-600" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-8V7a1 1 0 112 0v3a1 1 0 01-2 0zm0 4a1 1 0 112 0 1 1 0 01-2 0z" clipRule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                        <h3 className="text-lg leading-6 font-medium text-gray-900">Error</h3>
+                                        <div className="mt-2">
+                                            <p className="text-sm text-gray-500">{error || missingDetailsError}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button onClick={closeModal} type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <form onSubmit={handleSubmit} className='max-w-3xl mx-auto'>
                     <div className="space-y-12">
                         <div className="border-b border-gray-900/10 pb-12">
                             <h2 className="text-2xl font-bold leading-7 text-gray-900 text-center mb-8">Signup</h2> {/* Center align and increase font size */}
 
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 col-span-full">
-                            <div className="col-span-full">
+                                <div className="col-span-full">
                                     <label htmlFor="profilePicture" className="block text-sm font-medium leading-6 text-gray-900">Profile Picture</label>
                                     <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                         <div className="text-center">
@@ -92,7 +148,7 @@ export default function Signup() {
                                 </div>
                                 <div className="sm:col-span-4">
                                     <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Username
+                                        Username <span className="text-red-500">*</span>
                                     </label>
                                     <div className="mt-2">
                                         <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -112,7 +168,7 @@ export default function Signup() {
 
                                 <div className="sm:col-span-4">
                                     <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Password
+                                        Password <span className="text-red-500">*</span>
                                     </label>
                                     <div className="mt-2">
                                         <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -148,7 +204,6 @@ export default function Signup() {
                             </div>
                         </div>
 
-                        
                         <div className="border-b border-gray-900/10 pb-12">
                             <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
                             <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
@@ -156,7 +211,7 @@ export default function Signup() {
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="sm:col-span-3">
                                     <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Name
+                                        Name <span className="text-red-500">*</span>
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -173,7 +228,7 @@ export default function Signup() {
 
                                 <div className="sm:col-span-4">
                                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Email address
+                                        Email address <span className="text-red-500">*</span>
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -190,7 +245,7 @@ export default function Signup() {
 
                                 <div className="sm:col-span-3">
                                     <label htmlFor="gender" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Gender
+                                        Gender <span className="text-red-500">*</span>
                                     </label>
                                     <div className="mt-2">
                                         <select
@@ -211,7 +266,7 @@ export default function Signup() {
 
                                 <div className="sm:col-span-2 sm:col-start-1">
                                     <label htmlFor="age" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Age
+                                        Age <span className="text-red-500">*</span>
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -243,5 +298,5 @@ export default function Signup() {
                 </form>
             </div>
         </div>
-    )
+    );
 }
