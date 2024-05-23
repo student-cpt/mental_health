@@ -3,7 +3,9 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import Loader from 'react-js-loader';
 import Navbar from '../navbar/Navbar';
 
-const API_KEY = 'AIzaSyAvLasACbpdHZm3saPcQXY5xsCFsCA5CFc';
+
+
+const API_KEY = process.env.REACT_APP_API_KEY;
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 const questions = [
