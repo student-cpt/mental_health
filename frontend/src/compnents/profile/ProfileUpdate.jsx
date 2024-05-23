@@ -4,13 +4,13 @@ import { PhotoIcon } from '@heroicons/react/24/solid';
 
 const ProfileUpdate = () => {
 
-    const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [gender, setGender] = useState('');
     const [age, setAge] = useState('');
     const [bio, setBio] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
+    const [newPassword, setNewPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const { username } = useParams(); // Get username from URL parameter
@@ -21,8 +21,7 @@ const ProfileUpdate = () => {
                 const response = await fetch(`http://localhost:8000/${username}/getuserdetails`);
                 if (response.ok) {
                     const data = await response.json(); // Extract JSON data from response
-                    const { password, name, email, gender, age, bio, profilePicture } = data;
-                    setPassword(password);
+                    const { name, email, gender, age, bio, profilePicture } = data;
                     setName(name);
                     setEmail(email);
                     setGender(gender);
@@ -43,13 +42,12 @@ const ProfileUpdate = () => {
     
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if(name =='password') setPassword(value);
-        if(name == 'name') setName(value);
-        if(name=='email') setEmail(value);
-        if(name=='gender') setGender(value);
-        if(name == 'age') setAge(value);
-        if(name=='bio') setBio(value);
-
+        if(name === 'newPassword') setNewPassword(value);
+        if(name === 'name') setName(value);
+        if(name === 'email') setEmail(value);
+        if(name === 'gender') setGender(value);
+        if(name === 'age') setAge(value);
+        if(name === 'bio') setBio(value);
     };
 
     const handleFileChange = (e) => {
@@ -60,7 +58,9 @@ const ProfileUpdate = () => {
         e.preventDefault();
         try {
             const formData = new FormData();
-            formData.append('password', password);
+            if (newPassword) {
+                formData.append('password', newPassword);
+            }
             formData.append('name', name);
             formData.append('email', email);
             formData.append('gender', gender);
@@ -70,23 +70,13 @@ const ProfileUpdate = () => {
                 formData.append('profilePicture', profilePicture);
             }
 
-            const formDataObject = {};
-for (const [key, value] of formData.entries()) {
-    formDataObject[key] = value;
-}
-
-console.log('Submitting form data:');
-for (const [key, value] of Object.entries(formDataObject)) {
-    console.log(`${key}: ${value}`);
-}
-                        
-
             const response = await fetch(`http://localhost:8000/${username}/update-user`, {
                 method: 'PUT',
-                body: formDataObject,
+                body: formData,
             });
-            if (response.status == 200) {
-                console.log('Profile update successful:', response.data);
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Profile update successful:', data);
                 navigate(`/${username}/profile`); // Redirect to profile page after update
             } else {
                 setError('Failed to update profile');
@@ -107,7 +97,7 @@ for (const [key, value] of Object.entries(formDataObject)) {
                 <form onSubmit={handleSubmit} className='max-w-3xl mx-auto'>
                     <div className="space-y-12">
                         <div className="border-b border-gray-900/10 pb-12">
-                            <h2 className="text-2xl font-bold leading-7 text-gray-900 text-center mb-8">Signup</h2> {/* Center align and increase font size */}
+                            <h2 className="text-2xl font-bold leading-7 text-gray-900 text-center mb-8">Update Profile</h2> {/* Center align and increase font size */}
 
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 col-span-full">
                                 <div className="col-span-full">
@@ -128,17 +118,17 @@ for (const [key, value] of Object.entries(formDataObject)) {
                                 </div>
 
                                 <div className="sm:col-span-4">
-                                    <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Password
+                                    <label htmlFor="newPassword" className="block text-sm font-medium leading-6 text-gray-900">
+                                        New Password
                                     </label>
                                     <div className="mt-2">
                                         <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                                             <input
                                                 type="password"
-                                                name="password"
-                                                id="password"
-                                                autoComplete="current-password"
-                                                value={password}
+                                                name="newPassword"
+                                                id="newPassword"
+                                                autoComplete="new-password"
+                                                value={newPassword}
                                                 onChange={handleChange}
                                                 className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                             />
