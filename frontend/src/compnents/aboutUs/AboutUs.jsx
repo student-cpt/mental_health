@@ -8,7 +8,7 @@ const AboutUs = () => {
     <section class="mt-[5rem] h-[150vh] text-xl">
   <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
       <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
-          <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Meet Our Team</h2>
+          <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900">Meet Our Team</h2>
           
       </div> 
       <div class="mb-6 lg:mb-16">
@@ -17,7 +17,7 @@ const AboutUs = () => {
                 <img class="w-full h-full rounded-lg sm:rounded-none sm:rounded-l-lg" src="https://media.licdn.com/dms/image/D4D03AQHNveWmqg3ScA/profile-displayphoto-shrink_800_800/0/1691382068333?e=2147483647&v=beta&t=xWKGao8_bC1HZNz9YaBXG_qTXpv6vb7Vtcu7oNVkGYc" alt="Manan Hingorani" />
               </a>
               <div class="p-5">
-                <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <h3 class="text-xl font-bold tracking-tight text-gray-900 ">
                   <a href="#">Manan Hingorani</a>
                 </h3>
                 <span class="text-gray-500 dark:text-gray-400">Netaji Subhas University of Technology (NSUT)</span>
@@ -53,7 +53,7 @@ const AboutUs = () => {
                 <img class="w-full h-full rounded-lg sm:rounded-none sm:rounded-l-lg" src="https://pbs.twimg.com/profile_images/1545729794817785858/owAuYEH-_400x400.jpg" alt="Shreya Ganjoo" />
               </a>
               <div class="p-5">
-                <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <h3 class="text-xl font-bold tracking-tight text-gray-900 ">
                   <a href="#">Shreya Ganjoo</a>
                 </h3>
                 <span class="text-gray-500 dark:text-gray-400">Indira Gandhi Delhi Technical University For Women (IGDTUW)</span>
