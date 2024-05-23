@@ -12,24 +12,25 @@ import userRoutes from './routes/route.js';
 import Connection from './database/db.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import bodyParser from 'body-parser';
+
 
 mongoose.set('strictQuery', true);
 
 const app = express();
 const server = http.createServer(app); // Create HTTP server
-const io = new Server(server, {
-  cors: {
-    origin: 'http://localhost:3000', // Replace with your frontend URL
-    methods: ['GET', 'POST']
-  }
-});
+
 
 app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
   credentials: true,
+
 }));
 app.use(cookieParser());
+app.use (bodyParser.json ({extended: true}));
+app.use (bodyParser.urlencoded({extended: true}));
 
 app.use(session({
   secret: process.env.SESSION_SECRET,

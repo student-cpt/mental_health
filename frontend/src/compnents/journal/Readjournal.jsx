@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 import defaultCoverImage from './download.jpg'; 
+import './Modal.css';
 
 const Readjournal = () => {
     const [journals, setJournals] = useState([]);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false); // State for confirmation modal
+    const [journalToDelete, setJournalToDelete] = useState(null); // State to store journal to delete
     const { username } = useParams();
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchJournals = async () => {
@@ -26,11 +29,28 @@ const Readjournal = () => {
     };
 
     const handleEdit = (journalId) => {
-        navigate(`/${username}/journals/${journalId}/edit`); // Navigate to the update page
+        navigate(`/${username}/journals/${journalId}/edit`);
     };
 
     const handleDelete = (journalId) => {
-        
+        setJournalToDelete(journalId); // Set the journal to delete
+        setShowConfirmationModal(true); // Show confirmation modal
+    };
+
+    const confirmDelete = async () => {
+        try {
+            await axios.delete(`http://localhost:8000/journal-delete/${username}/${journalToDelete}`);
+            // Remove the deleted journal from the state
+            setJournals(journals.filter(journal => journal._id !== journalToDelete));
+            // Close the confirmation modal
+            setShowConfirmationModal(false);
+        } catch (error) {
+            console.error('Error deleting journal:', error);
+        }
+    };
+
+    const closeModal = () => {
+        setShowConfirmationModal(false);
     };
 
     return (
@@ -94,6 +114,17 @@ const Readjournal = () => {
                     })}
                 </div>
             </div>
+            {showConfirmationModal && (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <p className="text-lg font-semibold mb-4">Are you sure you want to delete this journal?</p>
+      <div className="modal-buttons">
+        <button className="bg-red-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-red-600" onClick={confirmDelete}>Delete</button>
+        <button className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400" onClick={closeModal}>Cancel</button>
+      </div>
+    </div>
+  </div>
+)}
         </div>
     );
 }

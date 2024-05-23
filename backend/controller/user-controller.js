@@ -116,47 +116,42 @@ export const deleteUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const { username } = req.params;
+      const { username } = req.params;
 
-    // Validate request body
-    if (!req.body && !req.file) {
-      return res.status(400).json({ msg: 'No data provided to update!' });
-    }
+      if (!req.body && !req.file) {
+          return res.status(400).json({ msg: 'No data provided to update!' });
+      }
 
-    // Define the fields that can be updated
-    const allowedUpdates = ['name', 'email', 'bio', 'password', 'age', 'gender', 'profilePicture'];
-    const updates = Object.keys(req.body);
-    if (req.file) updates.push('profilePicture'); // Include 'profilePicture' if file is provided
-    const isValidUpdate = updates.every(update => allowedUpdates.includes(update));
+      const allowedUpdates = ['name', 'email', 'bio', 'password', 'age', 'gender', 'profilePicture'];
+      const updates = Object.keys(req.body);
+      if (req.file) updates.push('profilePicture');
+      const isValidUpdate = updates.every(update => allowedUpdates.includes(update));
 
-    if (!isValidUpdate) {
-      return res.status(400).json({ msg: 'Invalid updates!' });
-    }
+      if (!isValidUpdate) {
+          return res.status(400).json({ msg: 'Invalid updates!' });
+      }
 
-    // Hash the password if it is being updated
-    if (req.body.password) {
-      const salt = await bcrypt.genSalt(10);
-      req.body.password = await bcrypt.hash(req.body.password, salt);
-    }
+      if (req.body.password) {
+          const salt = await bcrypt.genSalt(10);
+          req.body.password = await bcrypt.hash(req.body.password, salt);
+      }
 
-    // Add profilePicture to request body if file is provided
-    if (req.file) {
-      req.body.profilePicture = req.file.path;
-    }
+      if (req.file) {
+          req.body.profilePicture = req.file.path;
+      }
 
-    // Find and update the user
-    const user = await User.findOneAndUpdate({ username }, req.body, {
-      new: true,
-      runValidators: true,
-    });
+      const user = await User.findOneAndUpdate({ username }, req.body, {
+          new: true,
+          runValidators: true,
+      });
 
-    if (!user) {
-      return res.status(404).json({ msg: 'User not found!' });
-    }
+      if (!user) {
+          return res.status(404).json({ msg: 'User not found!' });
+      }
 
-    return res.status(200).json(user);
+      return res.status(200).json(user);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+      return res.status(500).json({ error: error.message });
   }
 };
 

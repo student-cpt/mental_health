@@ -110,6 +110,12 @@ const Login = () => {
             Signup Now
           </a>
         </p>
+        <p className=" text-center text-sm text-gray-500">
+          Go back to Homepage?{' '}
+          <a href="/" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            Go back
+          </a>
+        </p>
       </div>
     </div>
   );
