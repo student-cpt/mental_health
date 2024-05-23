@@ -85,11 +85,10 @@ const ProfileUpdate = () => {
             if (profilePicture) {
                 formData.append('profilePicture', profilePicture);
             }
-
-            const response = await axios.patch(`http://localhost:8000/${username}/update-user`, formData, { headers: { 'Content-Type': 'application/json' }});
-
+    
+            const response = await axios.patch(`http://localhost:8000/${username}/update-user`, formData);
+            console.log(response);
             if (response.status === 200) {
-                console.log (response);
                 navigate(`/${username}/profile`);
             } else {
                 setError('Failed to update profile');
