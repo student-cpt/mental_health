@@ -19,7 +19,7 @@ const Home1 = () => {
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">
 
           </div>
-          <div className="text-center -mt-16">
+          <div className="text-center -mt-24">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
               Welcome to Mindfulness.
             </h1>
