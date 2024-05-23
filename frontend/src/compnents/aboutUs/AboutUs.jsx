@@ -5,14 +5,14 @@ const AboutUs = () => {
   return (
     <>
     <Navbar />
-    <section class="bg-gray-900 mt-[5rem] h-[150vh] text-xl">
+    <section class="mt-[5rem] h-[150vh] text-xl">
   <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
       <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
           <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Meet Our Team</h2>
           
       </div> 
       <div class="mb-6 lg:mb-16">
-            <div class="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700 mb-6">
+      <div class="items-center rounded-xl shadow sm:flex dark:border-gray-700 mb-6" style={{ background: 'linear-gradient(to right, #D1D5DB, #E5E7EB, #F3F4F6)' }}>
               <a href="#">
                 <img class="w-full h-full rounded-lg sm:rounded-none sm:rounded-l-lg" src="https://media.licdn.com/dms/image/D4D03AQHNveWmqg3ScA/profile-displayphoto-shrink_800_800/0/1691382068333?e=2147483647&v=beta&t=xWKGao8_bC1HZNz9YaBXG_qTXpv6vb7Vtcu7oNVkGYc" alt="Manan Hingorani" />
               </a>
@@ -48,7 +48,7 @@ const AboutUs = () => {
                   </ul>
               </div>
           </div> 
-          <div class="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
+          <div class="items-center rounded-xl shadow sm:flex dark:border-gray-700 mb-6" style={{ background: 'linear-gradient(to right, #D1D5DB, #E5E7EB, #F3F4F6)' }}>
               <a href="#">
                 <img class="w-full h-full rounded-lg sm:rounded-none sm:rounded-l-lg" src="https://pbs.twimg.com/profile_images/1545729794817785858/owAuYEH-_400x400.jpg" alt="Shreya Ganjoo" />
               </a>
@@ -92,3 +92,6 @@ const AboutUs = () => {
 }
 
 export default AboutUs;
+
+
+

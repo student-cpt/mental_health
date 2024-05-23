@@ -57,7 +57,8 @@ const CreateJournal = () => {
       <Navbar />
       <div className="w-screen mt-32">
         <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-md">
-          <div className="px-6 py-4">
+        <div className="px-6 py-4" style={{ background: 'linear-gradient(to right, #D1D5DB, #E5E7EB, #F3F4F6)' }}>
+
             <h2 className="text-2xl font-bold text-gray-800 mb-2">Create Journal</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">

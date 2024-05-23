@@ -72,7 +72,7 @@ const Quiz = () => {
   return (
     <>
     <Navbar />
-    <div className="max-w-3xl mx-auto p-6 bg-[#FAFAEB] rounded-lg shadow-lg mt-24">
+    <div className="max-w-4xl mx-auto p-6" style={{background: 'linear-gradient(to right, #D1D5DB, #E5E7EB, #F3F4F6)', borderRadius: '1rem', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)', marginTop: '6rem'}}>
       <h1 className="text-2xl font-bold mb-6 text-center">Mental Health Quiz</h1>
       {questions.map((question, index) => (
         <div key={index} className="mb-4 text-black font-bold m-12">
@@ -100,11 +100,12 @@ const Quiz = () => {
         </div>
       ))}
       <button
-        onClick={handleSubmit}
-        className="mt-6 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors duration-300"
-      >
-        Submit
-      </button>
+  onClick={handleSubmit}
+  className="mt-6 w-half bg-blue-500 hover:bg-blue-700 text-white py-2 px-6 rounded-full transition-colors duration-300 ml-72"
+>
+  Submit
+</button>
+
       {loading ? (
         <div className="flex justify-center mt-6">
           <Loader type="spinner-cub" bgColor={"#000000"} color={"#FFFFFF"} title={"spinner-cub"} size={100} />

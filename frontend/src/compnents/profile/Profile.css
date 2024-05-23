@@ -47,23 +47,23 @@
   }
   
   .btn-update-profile,
-  .btn-create-journal {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-right: 10px;
-    background-color: #ff4d6a;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
+.btn-create-journal {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: #3498db; /* Change to blue color */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
   
-  .btn-update-profile:hover,
-  .btn-create-journal:hover {
-    background-color: #ff6384;
-  }
+.btn-update-profile:hover,
+.btn-create-journal:hover {
+  background-color: #2980b9; /* Darker shade of blue on hover */
+}
   
   .profile-stats {
     margin-top: 20px;

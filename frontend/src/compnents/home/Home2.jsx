@@ -2,7 +2,7 @@ import React from 'react';
 
 const Home2 = () => {
   return (
-    <section class="bg-gray-900 dark:bg-gray-900">
+    <section class="bg-gray-800 dark:bg-gray-800">
     <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
         <div class="mx-auto mb-8 max-w-screen-sm lg:mb-16">
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold  text-white">Mental Health</h2>
