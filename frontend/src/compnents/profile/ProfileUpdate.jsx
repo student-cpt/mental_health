@@ -266,7 +266,7 @@ const ProfileUpdate = () => {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/${username}/getuserdetails`);
+                const response = await fetch(`http://localhost:4000/${username}/getuserdetails`);
                 if (response.status === 200) {
                     const data = await response.json();
                     const { name, email, gender, age, bio, profilePicture } = data;

@@ -1,0 +1,295 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f8ff; /* Alice Blue - peaceful background for the whole page */
+    background-image: url(./mind.jpg);
+  }
+  
+  .about-section {
+    padding: 2rem;
+    background-color: #e1ebf4;
+    /* background-image: url(./mod3.jpg); */
+
+
+  }
+  
+  /* Keep the rest of the styles as is */
+  
+  
+  h1, h2, h3 {
+    color: #007bff;
+    margin-bottom: 1rem;
+  }
+  
+  /* Banner and Images */
+  .about-banner,
+  .illustration-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+  }
+  
+  /* About Summary */
+  .about-summary {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    color: #555;
+  }
+  
+  /* Content Rows */
+  .content-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+  
+  .content-column {
+    flex: 1;
+    min-width: 300px;
+    padding: 1.5rem;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .content-column:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .content-column p {
+    color: #555;
+    font-size: 1rem;
+  }
+  
+  /* Stats Section */
+  .stats-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+  
+  .stats-item {
+    background: linear-gradient(145deg, #e0f7fa, #ffffff);
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    flex: 1;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .stats-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .stats-item h3 {
+    color: #007bff;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+  }
+  
+  .stats-item p {
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+  
+  /* Team Section */
+  .team-container {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .team-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .team-profile {
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .team-profile:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .team-profile img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+  }
+  
+  .team-profile h3 {
+    font-size: 1.3rem;
+    color: #007bff;
+  }
+  
+  .team-profile p {
+    color: #555;
+  }
+  
+  /* Values Section */
+  .values-container {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .values-intro {
+    font-size: 1.3rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+  }
+  
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three boxes per row */
+    gap: 2rem;
+  }
+  
+  .value-item {
+    background: linear-gradient(145deg, #e8f5e9, #ffffff);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .value-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .value-item h3 {
+    color: #43a047; /* Green accent */
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  /* Process Section */
+  .process-container {
+    margin-top: 4rem;
+    text-align: center;
+  }
+  
+  .process-title {
+    font-size: 1.3rem;
+    color: #555;
+    margin-bottom: 2rem;
+  }
+  
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three steps per row */
+    gap: 2rem;
+  }
+  
+  .process-step {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .process-step:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .process-step h3 {
+    margin: 1rem 0;
+    color: #007bff;
+    font-size: 1.3rem;
+  }
+  .footer {
+    background-color: #00478f; /* Dark Gray for professional look */
+    color: #f8f9fa; /* Light text color for contrast */
+    padding: 40px 20px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    margin-top: 30px;
+    box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .footer-links {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .footer-link {
+    color: #f8f9fa;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .footer-link:hover {
+    color: #007bff; /* Blue highlight on hover */
+    transform: scale(1.1);
+  }
+  
+  .footer-social-text {
+    margin: 15px 0;
+    font-size: 1.2rem;
+  }
+  
+  .footer-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .social-link {
+    color: #f8f9fa;
+    font-size: 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 1px solid #f8f9fa;
+    border-radius: 5px;
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .social-link:hover {
+    color: #343a40; /* Dark text on hover */
+    background-color: #f8f9fa; /* Light background on hover */
+    transform: scale(1.1);
+  }

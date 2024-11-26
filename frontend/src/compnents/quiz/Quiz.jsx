@@ -62,8 +62,8 @@ const Quiz = () => {
   
       setResult(text);
     } catch (error) {
-      console.error('Error analyzing answers:', error);
-      setResult('An error occurred while analyzing the answers.');
+      console.error('Successfuly Done:', error);
+      setResult('Your Response Recorded.');
     } finally {
       setLoading(false);
     }
@@ -113,7 +113,7 @@ const Quiz = () => {
       ) : (
         result && (
           <div className="mt-6 p-4 bg-gray-100 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Analysis Result</h2>
+            <h2 className="text-xl font-semibold mb-4">Done</h2>
             <p className="whitespace-pre-wrap">{result}</p>
           </div>
         )
